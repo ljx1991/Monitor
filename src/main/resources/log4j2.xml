@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="OFF">
+    <Properties>
+        <!--配置property值，可以使用${}在后文使用，例如${SERVICE}可以访问值order_center-->
+        <!--不同系统service不同，例如订单中心为order_center，其他可见日志输出规范或者使用手册附表-->
+        <Property name="SERVICE">order_center_monitor</Property>
+        <!--本机环境-->
+        <Property name="LOG_HOME">/Users/ljx/Documents/workspace/logs/${SERVICE}</Property>
+        <!--验证环境-->
+        <!--        <Property name="LOG_HOME">/home/logs/${SERVICE}</Property>-->
+        <Property name="BUSINESS">business</Property>
+        <Property name="EXCEPTION">exception</Property>
+        <Property name="SQL">sql</Property>
+    </Properties>
+    <appenders>
+        <!--控制台输出-->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+        <!--业务日志，filename时当前写入日志的文件名，filePattern是每日文件切割后变更的文件名-->
+        <RollingFile name="business_appender" fileName="${LOG_HOME}/${BUSINESS}.log"
+                     filePattern="${LOG_HOME}/${BUSINESS}_%d{yyyy-MM-dd}.log">
+            <PatternLayout charset="UTF-8" pattern="%m%n"/>
+            <Policies>
+                <!--按时间切割文件，interval为1表示一天切割一次-->
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+            <!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件，这里设置了20 -->
+            <DefaultRolloverStrategy max="20">
+                <Delete basePath="${LOG_HOME}">
+                    <!-- glob 项为需要自动清理日志的pattern -->
+                    <IfFileName glob="${BUSINESS}_*.log"/>
+                    <!-- 15d 表示自动清理掉15天以前的日志文件 -->
+                    <IfLastModified age="15d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <!--异常日志配置-->
+        <RollingFile name="exception_appender" fileName="${LOG_HOME}/${EXCEPTION}.log"
+                     filePattern="${LOG_HOME}/${EXCEPTION}_%d{yyyy-MM-dd}.log">
+            <PatternLayout charset="UTF-8" pattern="%m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+            <!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件，这里设置了20 -->
+            <DefaultRolloverStrategy max="20">
+                <Delete basePath="${LOG_HOME}">
+                    <!-- glob 项为需要自动清理日志的pattern -->
+                    <IfFileName glob="${EXCEPTION}_*.log"/>
+                    <!-- 15d 表示自动清理掉15天以前的日志文件 -->
+                    <IfLastModified age="15d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <!--数据库日志配置-->
+        <RollingFile name="sql_appender" fileName="${LOG_HOME}/${SQL}.log"
+                     filePattern="${LOG_HOME}/${SQL}_%d{yyyy-MM-dd}.log">
+            <PatternLayout charset="UTF-8" pattern="%m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+        </RollingFile>
+        <!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件，这里设置了20 -->
+        <DefaultRolloverStrategy max="20">
+            <Delete basePath="${LOG_HOME}">
+                <!-- glob 项为需要自动清理日志的pattern -->
+                <IfFileName glob="${SQL}_*.log"/>
+                <!-- 15d 表示自动清理掉15天以前的日志文件 -->
+                <IfLastModified age="5d"/>
+            </Delete>
+        </DefaultRolloverStrategy>
+    </appenders>
+    <loggers>
+        <!--业务日志配置，appender-ref表示类com.chinaunicom.log.LoggerHelp按上面定义的business_appender进行日志输出，additivity为true表示同时在控制台输出日志-->
+        <AsyncLogger name="com.chinaunicom.log.LoggerHelp" level="info" additivity="false">
+            <appender-ref ref="business_appender"/>
+        </AsyncLogger>
+
+        <!--异常日志配置-->
+        <AsyncLogger name="com.chinaunicom.log.ExceptionLoggerHelp" level="info" additivity="false">
+            <appender-ref ref="exception_appender"/>
+        </AsyncLogger>
+
+        <!--数据库日志配置-->
+        <AsyncLogger name="com.chinaunicom.log.SqlLoggerHelp" level="info" additivity="false">
+            <appender-ref ref="sql_appender"/>
+        </AsyncLogger>
+
+        <root level="info">
+            <appender-ref ref="Console"/>
+        </root>
+    </loggers>
+</configuration>

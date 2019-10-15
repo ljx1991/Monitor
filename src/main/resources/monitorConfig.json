@@ -1,0 +1,16 @@
+{
+  "servers": [
+    {
+      "serverName": "order_center",
+      "serverUri": "http://132.224.18.124:18082/",
+      "monitors": [
+        {
+          "type": "mainframe"
+        },
+        {
+          "type": "jvm"
+        }
+      ]
+    }
+  ]
+}
