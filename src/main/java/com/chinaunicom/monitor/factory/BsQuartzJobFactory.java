@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 /**
  * @author ljx
  */
-@Service("quartzFactory")
 public class BsQuartzJobFactory extends AdaptableJobFactory {
     @Autowired
     private AutowireCapableBeanFactory capableBeanFactory;

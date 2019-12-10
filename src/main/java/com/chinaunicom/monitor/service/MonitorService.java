@@ -21,19 +21,15 @@ import java.util.List;
 /**
  * @author ljx
  */
-@Service
 public class MonitorService {
-    @Autowired
-    private JvmService jvmService;
-
-    @Autowired
-    private MainframeService mainframeService;
 
     /**
      * 读取配置文件，计算monitors配置的监控信息
      * @return
      */
     public InvigilatorDO getInvigilator() {
+        JvmService jvmService = new JvmService();
+        MainframeService mainframeService = new MainframeService();
         FileReader fileReader = new FileReader("monitorConfig.json");
         String monitorConfigStr = fileReader.readString();
         InvigilatorDO invigilator = JSONObject.parseObject(monitorConfigStr, InvigilatorDO.class);

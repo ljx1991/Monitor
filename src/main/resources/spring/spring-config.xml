@@ -42,10 +42,8 @@
 
 
     <!-- 配置service扫描包 -->
-    <context:component-scan base-package="com.chinaunicom.monitor.service"/>
-    <context:component-scan base-package="com.chinaunicom.monitor.factory"/>
-    <context:component-scan base-package="com.chinaunicom.monitor.task"/>
-    <bean id="quartzFactory" class="com.chinaunicom.monitor.factory.BsQuartzJobFactory"></bean>
+    <!--    <context:component-scan base-package="com.chinaunicom.monitor.service"/>-->
+    <!--    <bean id="quartzFactory" class="com.chinaunicom.monitor.factory.BsQuartzJobFactory"></bean>-->
 
     <!-- task -->
     <!-- 定义了一个任务JobDetail -->
@@ -94,7 +92,7 @@
 
     <!-- 总管理类 如果将lazy-init='false'那么容器启动就会执行调度程序 -->
     <bean id="SpringJobSchedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-        <property name="jobFactory" ref="quartzFactory"/>
+        <!--        <property name="jobFactory" ref="quartzFactory"/>-->
         <property name="triggers">
             <list>
                 <ref bean="cronQuartzLine"/>
