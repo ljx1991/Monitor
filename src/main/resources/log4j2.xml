@@ -5,9 +5,9 @@
         <!--不同系统service不同，例如订单中心为order_center，其他可见日志输出规范或者使用手册附表-->
         <Property name="SERVICE">order_center_monitor</Property>
         <!--本机环境-->
-        <Property name="LOG_HOME">/Users/ljx/Documents/workspace/logs/${SERVICE}</Property>
+        <!--        <Property name="LOG_HOME">/Users/ljx/Documents/workspace/logs/${SERVICE}</Property>-->
         <!--验证环境-->
-        <!--        <Property name="LOG_HOME">/home/logs/${SERVICE}</Property>-->
+        <Property name="LOG_HOME">/home/logs/${SERVICE}</Property>
         <Property name="BUSINESS">business</Property>
         <Property name="EXCEPTION">exception</Property>
         <Property name="SQL">sql</Property>
