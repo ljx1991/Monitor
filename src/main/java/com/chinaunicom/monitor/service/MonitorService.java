@@ -65,19 +65,19 @@ public class MonitorService {
             WarningInfo warningInfo = new WarningInfo();
             String serverName = server.getServerName();
             String serviceName = "";
-            switch (serverName) {
-                case "order_center":
-                    serviceName = "订单中心";
-                    break;
-                case "o2o":
-                    serviceName = "统一门户线上线下一体化应用";
-                    break;
-                case "sysmanm":
-                    serviceName = "统一门户系统管理应用";
-                    break;
-                default:
-                    break;
-            }
+//            switch (serverName) {
+//                case "order_center":
+//                    serviceName = "订单中心";
+//                    break;
+//                case "o2o":
+//                    serviceName = "统一门户线上线下一体化应用";
+//                    break;
+//                case "sysmanm":
+//                    serviceName = "统一门户系统管理应用";
+//                    break;
+//                default:
+//                    break;
+//            }
             String serverUri = server.getServerUri();
             String serverIp = serverUri.substring(7, serverUri.length() - 1);
             warningInfo.setServerName(serverName);
@@ -124,7 +124,7 @@ public class MonitorService {
         BigDecimal divide = memoryUsed.divide(memoryTotal, 2, RoundingMode.HALF_UP);
         WarningType warningType = this.getWarningType(divide);
         WarnItem warnItem = new WarnItem();
-        warnItem.setItemName("内存");
+        warnItem.setItemName("memory");
         warnItem.setItemValue(df.format(divide));
         if (warningType.getType() == -1) {
             warningItems.add(warnItem);
@@ -153,7 +153,7 @@ public class MonitorService {
             BigDecimal diskUsageRateOfBigDecimal = this.getPercentToBigDecimal(diskUsageRate);
             WarningType warningType = this.getWarningType(diskUsageRateOfBigDecimal);
             WarnItem warnItem = new WarnItem();
-            warnItem.setItemName("硬盘,挂载点:" + diskInfo.getDiskMount());
+            warnItem.setItemName("hard disk,mount point:" + diskInfo.getDiskMount());
             warnItem.setItemValue(diskUsageRate);
             if (warningType.getType() == -1) {
                 warningItems.add(warnItem);
@@ -211,7 +211,7 @@ public class MonitorService {
             BigDecimal divide = usedMemory.divide(maxMemory, 2, RoundingMode.HALF_UP);
             WarningType warningType = getWarningType(divide);
             WarnItem warnItem = new WarnItem();
-            warnItem.setItemName("jvm " + jvmMemoryInfo.getMemoryType() + " 内存");
+            warnItem.setItemName("jvm " + jvmMemoryInfo.getMemoryType() + " memory");
             warnItem.setItemValue(df.format(divide));
             if (warningType.getType() == -1) {
                 warningItems.add(warnItem);
